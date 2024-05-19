@@ -9,17 +9,17 @@ class Squad(BaseModel):
 
     Attributes:
         id (int): The ID of the squad.
-        nome (str): The name of the squad.
-        nota (float): The grade of the squad.
-        carro_id (str): The id of the car used by the squad.
+        name (str): The name of the squad.
+        grade (float): The grade of the squad.
+        car_id (str): The id of the car used by the squad.
     """
 
-    id: Optional[int]
-    nome: Optional[str]
-    nota: Optional[float]
-    carro_id: Optional[str]
+    id: Optional[int] = None
+    name: Optional[str] = None
+    grade: Optional[float] = None
+    car_id: Optional[str] = None
 
-    estudantes: Optional[list[Student]]
+    students: Optional[list[Student]] = None
 
 
 class SquadCreate(BaseModel):
@@ -28,14 +28,14 @@ class SquadCreate(BaseModel):
 
     Attributes:
         name (str): The name of the squad.
-        carro_id (str): The name of the id used by the squad.
-        estudantes (Optional[list[StudentCreate]]): The list of students in the squad. This attribute is optional.
+        car_id (str): The name of the id used by the squad.
+        students (Optional[list[StudentCreate]]): The list of students in the squad. This attribute is optional.
     """
 
     name: str
-    carro_id: str
+    car_id: str
 
-    estudantes: Optional[list[StudentCreate]]
+    students: Optional[list[StudentCreate]] = None
 
 
 class SquadUpdate(SquadCreate, OptionalModel):

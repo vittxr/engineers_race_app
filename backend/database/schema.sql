@@ -1,28 +1,27 @@
-CREATE TABLE `provas`(
+CREATE TABLE `tests`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `nome` VARCHAR(64) NOT NULL,
-    `corrida_pontuacao` INT NOT NULL,
-    `corrida_posicao` INT NOT NULL,
-    `valor` DECIMAL(8, 2) NOT NULL,
-    `valor_descricao` VARCHAR(64) NOT NULL,
-    `penalidade` DECIMAL(8, 2) NULL,
+    `name` VARCHAR(64) NOT NULL UNIQUE,
+    `race_score` INT NOT NULL,
+    `race_position` INT NOT NULL,
+    `value` DECIMAL(8, 2) NOT NULL,
+    `value_description` VARCHAR(64) NOT NULL,
+    `penalty` DECIMAL(8, 2) NULL,
     `penalty_description` VARCHAR(64) NULL,
-    `penalidade_descricao` INT NOT NULL,
-    `equipe_id` INT UNSIGNED NOT NULL
+    `squad_id` INT UNSIGNED NOT NULL
 );
-CREATE TABLE `equipes`(
+CREATE TABLE `squads`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `nome` VARCHAR(64) NOT NULL,
-    `nota` INT,
-    `carro_id` VARCHAR(32) NOT NULL
+    `name` VARCHAR(64) NOT NULL UNIQUE,
+    `grade` INT,
+    `car_id` VARCHAR(32) NOT NULL UNIQUE
 );
-CREATE TABLE `estudantes`(
+CREATE TABLE `students`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `nome` VARCHAR(64) NOT NULL,
-    `RA` VARCHAR(10) NOT NULL,
-    `equipe_id` INT UNSIGNED NOT NULL
+    `name` VARCHAR(64) NOT NULL,
+    `RA` VARCHAR(10) NOT NULL UNIQUE,
+    `squad_id` INT UNSIGNED NOT NULL
 );
 ALTER TABLE
-    `estudantes` ADD CONSTRAINT `estudantes_equipe_id_foreign` FOREIGN KEY(`equipe_id`) REFERENCES `equipes`(`id`);
+    `students` ADD CONSTRAINT `students_squad_id_foreign` FOREIGN KEY(`squad_id`) REFERENCES `squads`(`id`);
 ALTER TABLE
-    `provas` ADD CONSTRAINT `provas_equipe_id_foreign` FOREIGN KEY(`equipe_id`) REFERENCES `equipes`(`id`);
+    `tests` ADD CONSTRAINT `tests_squad_id_foreign` FOREIGN KEY(`squad_id`) REFERENCES `squads`(`id`);

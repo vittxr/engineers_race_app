@@ -3,6 +3,12 @@ from database.schemas import Squad, SquadCreate
 from dependencies import connection
 
 
+async def get_squads():
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM squads")
+        return cursor.fetchall()
+
+
 async def create_squad(squad: SquadCreate):
     """
     Create a new squad.
@@ -14,7 +20,24 @@ async def create_squad(squad: SquadCreate):
         Squad: The created squad.
     """
     with connection.cursor() as cursor:
-        sql = "INSERT INTO squads (nome, carro_id) VALUES (%s, %s) RETURNING *"
-        cursor.execute(sql, (squad.nome, squad.carro_id))
-        students = await create_students(squad.estudantes, cursor.fetchone()["id"])
-        return Squad(**cursor.fetchone(), students=students)
+        sql = "INSERT INTO squads (name, car_id) VALUES (%s, %s) RETURNING *"
+        cursor.execute(sql, (squad.name, squad.car_id))
+        db_squad = cursor.fetchone()
+        students = await (
+            create_students(squad.students, db_squad["id"]) if squad.students else []
+        )
+        return Squad(**db_squad, students=students)
+
+
+async def delete_squad(id: int) -> None:
+    """
+    Delete a squad.
+
+    Args:
+        id (int): The squad id.
+
+    Returns:
+        None
+    """
+    with connection.cursor() as cursor:
+        cursor.execute("DELETE FROM squads WHERE id = %s", (id,))

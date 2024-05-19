@@ -17,8 +17,10 @@ async def create_students(students: list[StudentCreate], squad_id: int):
         Student: The created students.
     """
     with connection.cursor() as cursor:
-        sql = "INSERT INTO students (name, age) VALUES (%s, %s) RETURNING *"
-
-        data = [(student.name, student.age, squad_id) for student in students]
+        sql = (
+            "INSERT INTO students (name, RA, squad_id) VALUES (%s, %s, %s) RETURNING *"
+        )
+        data = [(student.name, student.RA, squad_id) for student in students]
         cursor.executemany(sql, data)
-        return cursor.fetchone()
+        data = cursor.fetchall()
+        return data

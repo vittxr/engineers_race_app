@@ -8,4 +8,5 @@ connection = pymysql.connect(
     password=os.getenv("DB_PASSWORD"),
     database=os.getenv("DB_NAME"),
     cursorclass=pymysql.cursors.DictCursor,
+    autocommit=True,
 )
