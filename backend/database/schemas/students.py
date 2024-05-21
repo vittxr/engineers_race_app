@@ -9,12 +9,12 @@ class Student(BaseModel):
     Attributes:
         id (int): The unique identifier of the student.
         name (str): The name of the student.
-        RA (int): The registration number of the student.
+        RA (str): The registration number of the student.
     """
 
     id: int
     name: str
-    RA: int
+    RA: str
 
 
 class StudentCreate(BaseModel):
@@ -23,11 +23,11 @@ class StudentCreate(BaseModel):
 
     Attributes:
         name (str): The name of the student.
-        RA (int): The RA (Registration Number) of the student.
+        RA (str): The RA (Registration Number) of the student.
     """
 
     name: str
-    RA: int
+    RA: str
 
 
 class StudentUpdate(StudentCreate, OptionalModel):

@@ -40,9 +40,12 @@ class SquadCreate(BaseModel):
 
 class SquadUpdate(SquadCreate, OptionalModel):
     """
-    Represents the schema for updating a squad.
+    Represents the data required to create a new squad. Note that "students" attribute is not updatable.
 
-    Inherits from `SquadCreate` and `OptionalModel`.
+    Attributes:
+        name (str): The name of the squad.
+        car_id (str): The name of the id used by the squad.
     """
 
-    pass
+    name: str
+    car_id: str

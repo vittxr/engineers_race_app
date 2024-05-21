@@ -1,5 +1,5 @@
 from database.crud import create_students
-from database.schemas import Squad, SquadCreate
+from database.schemas import Squad, SquadCreate, SquadUpdate
 from dependencies import connection
 
 
@@ -27,6 +27,26 @@ async def create_squad(squad: SquadCreate):
             create_students(squad.students, db_squad["id"]) if squad.students else []
         )
         return Squad(**db_squad, students=students)
+
+
+async def update_squad(id: int, squad: SquadUpdate) -> None:
+    """
+    Update a squad.
+
+    Args:
+        id (int): The squad id.
+
+    Returns:
+        None
+    """
+    with connection.cursor() as cursor:
+        squad = squad.model_dump(
+            exclude_none=True,
+        )
+        set_clause = ", ".join([f"{column} = %s" for column in squad.keys()])
+        sql = f"UPDATE squads SET {set_clause} WHERE id = %s"
+        sql_data = tuple(squad.values())
+        cursor.execute(sql, (*sql_data, id))
 
 
 async def delete_squad(id: int) -> None:

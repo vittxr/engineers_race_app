@@ -4,7 +4,7 @@
   - [ ] /squads
     - [x] get method: get all squads (or one if id is specified)
     - [x] post method: create a new squad.
-    - [ ] put method: update squad by id (/squads/{id})
+    - [x] put method: update squad by id (/squads/{id})
     - [x] delete method: delete a squad by id (/squads/{id})
 
 # Students: 
@@ -31,3 +31,5 @@
   - [ ] /auth: 
     - [ ] /login
     - [ ] /logout
+
+https://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@github.com/vittxr/engineers_race_app.git
