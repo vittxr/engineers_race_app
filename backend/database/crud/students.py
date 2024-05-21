@@ -2,6 +2,18 @@ from database.schemas import StudentCreate
 from dependencies import connection
 
 
+async def get_students():
+    """
+    Retrieve all students from the database.
+
+    Returns:
+        A list of tuples representing the students' data.
+    """
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT * FROM students")
+        return cursor.fetchall()
+
+
 async def create_student(student: StudentCreate):
     pass
 

@@ -11,9 +11,11 @@
 
 - [ ] endpoints: 
   - [ ] /students: 
-    - [ ] get methods: get all students. (or one if id is specified)
-    - [ ] post method: create a new student.
+    - [x] get methods: get all students. (or one if id is specified)
+    - [ ] post method: create a new student. 
+        this method should allow the teacher associate a squad with the new student.
     - [ ] put method: update student by id (/students/{id})
+        this method should allow the teacher update the student squad.
     - [ ] delete method: delete a student by id (/students/{id})
   
 # Tests: 
