@@ -1,10 +1,17 @@
-import React from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { httpClient } from '@/utils/requests'
+import BaseScreen from '../BaseScreen'
 
-type Props = {}
+const Squad = () => {
+  const squads = useQuery({
+    queryKey: ['squads'],
+    queryFn: () => httpClient.get('/squads')
+  })
 
-const Squad = (props: Props) => {
+  console.log('squads', squads.data?.data)
+
   return (
-    <div>Squad</div>
+    <BaseScreen>Squads</BaseScreen>
   )
 }
 
