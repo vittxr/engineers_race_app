@@ -4,7 +4,7 @@
 export type Student = {
     id?: number
     name?: string 
-    RA?: number
+    RA?: string
 }
 
 /**
@@ -12,7 +12,7 @@ export type Student = {
  */
 export type StudentCreate = {
     name: string
-    RA: number
+    RA: string
 }
 
 /**
@@ -20,5 +20,5 @@ export type StudentCreate = {
  */
 export type StudentUpdate = {
     name?: string
-    RA?: number
+    RA?: string
 }
