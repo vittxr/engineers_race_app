@@ -47,5 +47,4 @@ class SquadUpdate(SquadCreate, OptionalModel):
         car_id (str): The name of the id used by the squad.
     """
 
-    name: str
-    car_id: str
+    pass
