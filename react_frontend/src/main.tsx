@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Squads from './screens/squads/Squads';
 
 import './index.css';
+import SquadCreate from './screens/squads/SquadCreate';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,12 @@ const router = createBrowserRouter(
     {
       path: "/equipes", 
       element: <Squads />,
+      children: [
+        {
+          path: "/equipes/criar", 
+          element: <SquadCreate />
+        }
+      ]
     }
   ],
 );
