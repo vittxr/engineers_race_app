@@ -127,7 +127,7 @@ export default function BaseScreen({ children }: Props) {
           )}
         </Disclosure>
       </header>
-      <main className="mt-2">
+      <main className="mt-2 p-4">
         {children}
       </main>
     </>
