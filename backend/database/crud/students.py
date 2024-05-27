@@ -36,3 +36,14 @@ async def create_students(students: list[StudentCreate], squad_id: int):
         cursor.executemany(sql, data)
         data = cursor.fetchall()
         return data
+
+
+async def delete_students_from_squad(squad_id: int):
+    """
+    Delete all students from a squad.
+
+    Args:
+        squad_id (int): The ID of the squad.
+    """
+    with connection.cursor() as cursor:
+        cursor.execute("DELETE FROM students WHERE squad_id = %s", (squad_id,))
