@@ -15,6 +15,7 @@ app = FastAPI(
 origins = [
     "http://localhost",
     "http://localhost:5500",
+    "http://localhost:5173",
 ]
 
 app.include_router(squads_router)
@@ -25,7 +26,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["POST"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 app.add_middleware(ExceptionHandlerMiddleware)
