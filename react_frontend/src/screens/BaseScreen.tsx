@@ -1,21 +1,25 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
 import { Bars3Icon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { classNames } from '@/utils/tw'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import Logo from "@/assets/svg/logo-no-background.svg"
 
 type Props = {
     children: React.ReactNode
 }
 
-const navigation = [
-  { name: 'Equipes', href: '/equipes', current: true },
-  { name: 'Estudantes', href: '/estudantes', current: false },
-  { name: 'Provas', href: '/provas', current: false },
-]
 
 export default function BaseScreen({ children }: Props) {
+  const location = useLocation()
+  const [navigation, setNavigation] = useState([
+    { name: 'Equipes', href: '/equipes', current: location.pathname === '/equipes' },
+    { name: 'Provas', href: '/provas', current: location.pathname === '/provas'},
+    { name: 'Podium', href: '/podium', current: location.pathname === '/podium'},
+  ])
+  
+
   return (
     <>
       <header>
@@ -38,14 +42,14 @@ export default function BaseScreen({ children }: Props) {
                   <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                     <div className="flex-shrink-0 flex items-center">
                       <img
-                        className="block lg:hidden h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                        className="block lg:hidden h-12 w-auto"
+                        src={Logo}
                         alt="Workflow"
                       />
                       <img
                         className="hidden lg:block h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-                        alt="Workflow"
+                        src={Logo}
+                        alt="Engineers Race"
                       />
                     </div>
                     <div className="hidden sm:block sm:ml-6">
@@ -59,6 +63,15 @@ export default function BaseScreen({ children }: Props) {
                               'px-3 py-2 rounded-md text-sm font-medium'
                             )}
                             aria-current={item.current ? 'page' : undefined}
+                            onClick={() => {
+                              setNavigation(navigation.map(navItem => {
+                                if (navItem.name === item.name) {
+                                  return { ...navItem, current: true }
+                                }
+                                return { ...navItem, current: false }
+                              }
+                              ))
+                            }}
                           >
                             {item.name}
                           </Link>

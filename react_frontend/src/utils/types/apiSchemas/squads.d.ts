@@ -4,10 +4,10 @@ import { Student } from './students';
  * Represents a squad.
  */
 export type Squad = {
-    id?: number;
-    name?: string;
+    id: number;
+    name: string;
     grade?: number;
-    car_id?: string;
+    car_id: string;
     students?: Student[];
 }
 

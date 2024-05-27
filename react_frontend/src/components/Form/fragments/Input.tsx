@@ -36,7 +36,7 @@ const Input = ({ id, className = '', isLoading = false, ...rest }: Props) => {
   }
 
   return (
-    <div >
+    <div className="relative my-3">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
         {rest.label}
       </label>
@@ -44,7 +44,7 @@ const Input = ({ id, className = '', isLoading = false, ...rest }: Props) => {
         {...register?.(id)}
         {...rest}
         className={twMerge(
-          'block w-full px-3 py-2 placeholder-gray-400 border-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm',
+          'block w-full px-3 py-2 placeholder-gray-400 border-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm ',
           errors[id]?.message
             ? 'border-red-500 focus:border-red-500'
             : 'border-gray-300',
@@ -52,7 +52,7 @@ const Input = ({ id, className = '', isLoading = false, ...rest }: Props) => {
         )}
       />
       {errors[id] && (
-        <span className="text-red-500 text-sm">
+        <span className="text-red-500 text-sm absolute bottom-[-20px]">
           {errors[id]?.message as string}
         </span>
       )}

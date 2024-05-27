@@ -24,6 +24,7 @@ type Props = {
 };
 
 const Select = (props: Props) => {
+  console.log('options', props.options)
   return (
     <div className={twMerge('flex flex-col', props.style?.container)}>
       <label

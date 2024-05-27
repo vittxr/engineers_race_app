@@ -16,6 +16,8 @@ type Props = {
   isLoading?: boolean;
   /** tooltip text to be displayed on hover */
   tooltip?: string;
+  /** the form id vinculated with this button */
+  form?: string;
 };
 
 const defaultClassName =
@@ -29,6 +31,7 @@ const Button = ({
   type = 'button',
   disabled = false,
   isLoading = false,
+  form
 }: Props) => {
   if (isLoading) {
     return (
@@ -73,6 +76,7 @@ const Button = ({
       type={type}
       disabled={disabled}
       title={tooltip}
+      form={form}
     >
       {children}
     </button>

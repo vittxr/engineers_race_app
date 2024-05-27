@@ -1,5 +1,5 @@
 from database.crud import create_squad, get_squads, delete_squad
-from database.crud.squads import update_squad
+from database.crud.squads import get_squad, update_squad
 from database.schemas import Squad
 from database.schemas.squads import SquadCreate, SquadUpdate
 from routes import squads_router
@@ -10,7 +10,12 @@ async def get_squads_route():
     return await get_squads()
 
 
-@squads_router.post("/", response_model=Squad)
+@squads_router.get("/{id}/", response_model=Squad)
+async def get_squad_route(id: int):
+    return await get_squad(id)
+
+
+@squads_router.post("/", response_model=None)
 async def create_squad_route(squad: SquadCreate):
     return await create_squad(squad)
 

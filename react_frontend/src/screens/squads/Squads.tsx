@@ -1,20 +1,27 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { httpClient } from '@/utils/requests'
 import BaseScreen from '@/screens/BaseScreen'
 import { GridList, Button} from '@/components'
 import { Squad } from '@/utils/types/apiSchemas'
 import { PlusCircleIcon } from '@heroicons/react/24/outline'
 import { Outlet, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import EmptyState from '@/components/EmptyState'
 
 const Squads = () => {
-  // const [isAddModalVisible, setIsAddModalVisible] = useState(false)
   const nav = useNavigate()
   const squads = useQuery({
     queryKey: ['squads'],
     queryFn: () => httpClient.get('/squads')
   })
-
-  console.log('squads', squads.data?.data)
+  const deleteMutation = useMutation({
+    mutationFn: (id: string) => httpClient.delete(`/squads/${id}/`).then(() => {
+      toast.success('Equipe deletada com sucesso!')
+      squads.refetch()
+    }).catch(() => {
+      toast.error('Erro ao deletar equipe!')
+    })
+  })
 
   return (
     <BaseScreen >
@@ -30,6 +37,15 @@ const Squads = () => {
 
       <hr className='my-2'></hr>
 
+      {squads.data?.data?.length === 0 && (
+          <EmptyState
+            title="Não há equipes"
+            description="Comece criando a primeira equipe!"
+            buttonText="Adicionar equipe"
+            buttonOnClick={() => nav('/equipes/criar')}
+            className='mt-20'
+          />
+       )}
       <GridList 
         items={squads.data?.data?.map((squad: Squad) => {
           return {
@@ -40,9 +56,8 @@ const Squads = () => {
         }) || []} 
         crudMethods={
           {
-            onEdit: (id: string) => console.log('onEdit', id),
-            onDelete: (id: string) => console.log('onDelete', id),
-            onAdd: () => console.log('onAdd')
+            onEdit: (id: string) => nav(`/equipes/${id}`),
+            onDelete: (id: string) => deleteMutation.mutateAsync(id),
           }
         }
       />

@@ -1,59 +1,65 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DefaultValues, FormProvider, useForm } from 'react-hook-form';
 import Input from './fragments/Input';
 import Select from './fragments/Select';
 import Button from '@/components/buttons/Button';
 import { twMerge } from 'tailwind-merge';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { ObjectSchema, AnyObject } from 'yup';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 type Props<DataT> = {
+  id: string;
   defaultValues?: DefaultValues<DataT>;
   children: React.ReactElement | React.ReactElement[];
   onSubmit: (data: DataT) => void;
   className?: string;
   isSubmitting?: boolean;
-  // yupSchema?: ObjectSchema<AnyObject>;
-  yupSchema?: unknown;
-  hideSubmitButton: boolean;
+  zodSchema?: unknown;
+  hideSubmitButton?: boolean;
+  buttonText?: string;
 };
 
-/**
- * RHForm component (using react hook form). If you are using this component, you should use the RHForm.Input, RHForm.Select... instead of the Input, Select... components. This is because the RHForm components are connected to the useForm hook and the Input, Select... components are not, but they have the same props.
- */
+
 export default function RHForm<DataT extends object>({
+  id,
   defaultValues,
   children,
   onSubmit,
   className,
   isSubmitting,
-  yupSchema,
+  zodSchema,
   hideSubmitButton,
+  buttonText
 }: Props<DataT>) {
-  const methods = useForm({
+  const methods = useForm<DataT>({
     defaultValues,
     mode: 'onChange',
-    // @ts-expect-error - cannot type yup schema properly
+    // @ts-expect-error - cannot type zod schema properly
     resolver:
-      yupSchema &&
-      yupResolver(yupSchema as ObjectSchema<DataT, AnyObject, unknown, ''>),
+      zodSchema &&
+      zodResolver(zodSchema),
   });
   const { handleSubmit } = methods;
 
+  useEffect(() => {
+    methods.reset(defaultValues);
+  }, [defaultValues, methods]);
+
+  console.log('defaultValues', defaultValues)
   return (
     <FormProvider {...methods}>
       <form
+        id={id}
         onSubmit={handleSubmit(onSubmit)}
-        className={twMerge('py-2 flex flex-col space-y-2', className)}
+        className={twMerge('py-2 flex flex-col', className)}
       >
         {children}
         {!hideSubmitButton && (
             <Button
                 type="submit"
-                className=""
+                className="mt-4 w-fit px-20 self-end"
                 isLoading={isSubmitting}
             >
-                Criar
+                {buttonText}
             </Button>
         )}
       </form>
