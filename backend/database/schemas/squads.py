@@ -1,6 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
 from database.schemas import Student, StudentCreate
+from database.schemas.utils import OptionalModel
 
 
 class Squad(BaseModel):
@@ -38,7 +39,7 @@ class SquadCreate(BaseModel):
     students: Optional[list[StudentCreate]] = None
 
 
-class SquadUpdate(BaseModel):
+class SquadUpdate(SquadCreate, OptionalModel):
     """
     Represents the data required to create a new squad. Note that "students" attribute is not updatable.
 
@@ -47,5 +48,4 @@ class SquadUpdate(BaseModel):
         car_id (str): The name of the id used by the squad.
     """
 
-    name: str
-    car_id: str
+    pass
