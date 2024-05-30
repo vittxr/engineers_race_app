@@ -18,7 +18,7 @@ type Props<DataT> = {
   buttonText?: string;
 };
 
-
+// TODO: type zodSchema properly in useForm.
 export default function RHForm<DataT extends object>({
   id,
   defaultValues,
@@ -28,7 +28,7 @@ export default function RHForm<DataT extends object>({
   isSubmitting,
   zodSchema,
   hideSubmitButton,
-  buttonText
+  buttonText,
 }: Props<DataT>) {
   const methods = useForm<DataT>({
     defaultValues,
@@ -36,6 +36,7 @@ export default function RHForm<DataT extends object>({
     // @ts-expect-error - cannot type zod schema properly
     resolver:
       zodSchema &&
+      // @ts-expect-error - cannot type zod schema properly
       zodResolver(zodSchema),
   });
   const { handleSubmit } = methods;
@@ -44,7 +45,7 @@ export default function RHForm<DataT extends object>({
     methods.reset(defaultValues);
   }, [defaultValues, methods]);
 
-  console.log('defaultValues', defaultValues)
+  console.log('defaultValues', defaultValues);
   return (
     <FormProvider {...methods}>
       <form
@@ -54,13 +55,13 @@ export default function RHForm<DataT extends object>({
       >
         {children}
         {!hideSubmitButton && (
-            <Button
-                type="submit"
-                className="mt-4 w-fit px-20 self-end"
-                isLoading={isSubmitting}
-            >
-                {buttonText}
-            </Button>
+          <Button
+            type="submit"
+            className="mt-4 w-fit px-20 self-end"
+            isLoading={isSubmitting}
+          >
+            {buttonText}
+          </Button>
         )}
       </form>
     </FormProvider>
