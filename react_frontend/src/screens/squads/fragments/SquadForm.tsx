@@ -9,9 +9,10 @@ import { toast } from 'react-toastify'
 import { StudentFormData, TStudentFormData } from '@/utils/zodSchemas/student'
 import { SquadFormData, TSquadFormData } from '@/utils/zodSchemas/squad'
 import { Squad } from '@/utils/types/apiSchemas'
+import { UseMutationResult } from '@tanstack/react-query'
 
-type Props = {
-    mutation: any;
+type Props = { 
+    mutation: UseMutationResult<void, Error, TSquadFormData, unknown>;
     modalTitle: string;
     buttonText: string;
     squad?: Squad;

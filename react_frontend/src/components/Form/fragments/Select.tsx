@@ -1,5 +1,4 @@
 import { twMerge } from 'tailwind-merge';
-import { Dispatch, SetStateAction } from 'react';
 import SelectSkeleton from '@/components/skeletons/SelectSkeleton';
 
 type Style = {
@@ -20,7 +19,7 @@ type Props = {
   defaultValue?: string;
   isLoading?: boolean;
   style?: Style;
-  onChange?: Dispatch<SetStateAction<string>>;
+  onChange?: (value: string) => void;
 };
 
 const Select = (props: Props) => {
@@ -44,6 +43,7 @@ const Select = (props: Props) => {
           )}
           id={props.id}
           defaultValue={props.defaultValue}
+          onChange={(e) => props.onChange && props.onChange(e.target.value)}
         >
           {props.options.map((option) => (
             <option

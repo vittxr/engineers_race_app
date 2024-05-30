@@ -1,9 +1,9 @@
 import { queryClient } from '@/main'
 import { httpClient } from '@/utils/requests'
 import { useMutation } from '@tanstack/react-query'
-import React from 'react'
 import TestForm from './fragments/TestForm'
 import BaseScreen from '../BaseScreen'
+import { TSquadFormData } from '@/utils/zodSchemas/squad'
 
 const TestCreate = () => {
   const mutation = useMutation({
