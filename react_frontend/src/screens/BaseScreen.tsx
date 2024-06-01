@@ -1,24 +1,52 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment, useState } from 'react'
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, Transition } from '@headlessui/react'
-import { Bars3Icon, UserCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { classNames } from '@/utils/tw'
-import { Link, useLocation } from 'react-router-dom'
-import Logo from "@/assets/svg/logo-no-background.svg"
+import { Fragment, useState } from 'react';
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from '@headlessui/react';
+import {
+  Bars3Icon,
+  UserCircleIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
+import { classNames } from '@/utils/tw';
+import { Link, useLocation } from 'react-router-dom';
+import Logo from '@/assets/svg/logo-no-background.svg';
 
 type Props = {
-    children: React.ReactNode
-}
-
+  children: React.ReactNode;
+};
 
 export default function BaseScreen({ children }: Props) {
-  const location = useLocation()
+  const location = useLocation();
   const [navigation, setNavigation] = useState([
-    { name: 'Equipes', href: '/equipes', current: location.pathname === '/equipes' },
-    { name: 'Provas', href: '/provas', current: location.pathname === '/provas'},
-    { name: 'Podium', href: '/podium', current: location.pathname === '/podium'},
-  ])
-  
+    {
+      name: 'Equipes',
+      href: '/equipes',
+      current: location.pathname.includes('/equipes'),
+    },
+    {
+      name: 'Provas',
+      href: '/provas',
+      current: location.pathname.includes('/provas'),
+    },
+    {
+      name: 'Podium',
+      href: '/podium',
+      current: location.pathname.includes('/podium'),
+    },
+    {
+      name: 'Notas',
+      href: '/notas',
+      current: location.pathname.includes('/notas'),
+    },
+  ]);
 
   return (
     <>
@@ -33,9 +61,15 @@ export default function BaseScreen({ children }: Props) {
                     <DisclosureButton className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                       <span className="sr-only">Open main menu</span>
                       {open ? (
-                        <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                        <XMarkIcon
+                          className="block h-6 w-6"
+                          aria-hidden="true"
+                        />
                       ) : (
-                        <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                        <Bars3Icon
+                          className="block h-6 w-6"
+                          aria-hidden="true"
+                        />
                       )}
                     </DisclosureButton>
                   </div>
@@ -55,22 +89,25 @@ export default function BaseScreen({ children }: Props) {
                     <div className="hidden sm:block sm:ml-6">
                       <div className="flex space-x-4">
                         {navigation.map((item) => (
-                          <Link 
+                          <Link
                             key={item.name}
                             to={item.href}
                             className={classNames(
-                              item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                              'px-3 py-2 rounded-md text-sm font-medium'
+                              item.current
+                                ? 'bg-gray-900 text-white'
+                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                              'px-3 py-2 rounded-md text-sm font-medium',
                             )}
                             aria-current={item.current ? 'page' : undefined}
                             onClick={() => {
-                              setNavigation(navigation.map(navItem => {
-                                if (navItem.name === item.name) {
-                                  return { ...navItem, current: true }
-                                }
-                                return { ...navItem, current: false }
-                              }
-                              ))
+                              setNavigation(
+                                navigation.map((navItem) => {
+                                  if (navItem.name === item.name) {
+                                    return { ...navItem, current: true };
+                                  }
+                                  return { ...navItem, current: false };
+                                }),
+                              );
                             }}
                           >
                             {item.name}
@@ -80,13 +117,15 @@ export default function BaseScreen({ children }: Props) {
                     </div>
                   </div>
                   <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-
                     {/* Profile dropdown */}
                     <Menu as="div" className="ml-3 relative">
                       <div>
                         <MenuButton className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
                           <span className="sr-only">Open user menu</span>
-                          <UserCircleIcon className="h-8 w-8 text-white" aria-hidden="true" />
+                          <UserCircleIcon
+                            className="h-8 w-8 text-white"
+                            aria-hidden="true"
+                          />
                         </MenuButton>
                       </div>
                       <Transition
@@ -99,12 +138,14 @@ export default function BaseScreen({ children }: Props) {
                         leaveTo="transform opacity-0 scale-95"
                       >
                         <MenuItems className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-
                           <MenuItem>
                             {({ active }) => (
                               <a
                                 href="#"
-                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
+                                className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                  'block px-4 py-2 text-sm text-gray-700',
+                                )}
                               >
                                 Deslogar
                               </a>
@@ -119,30 +160,28 @@ export default function BaseScreen({ children }: Props) {
 
               <DisclosurePanel className="sm:hidden">
                 <div className="px-2 pt-2 pb-3 space-y-1">
-                  {navigation.map((item) => (    
-                    <Link key={item.name} to={item.href}>   
+                  {navigation.map((item) => (
+                    <Link key={item.name} to={item.href}>
                       <DisclosureButton
-                          className={classNames(
-                            item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                            'w-full block px-3 py-2 rounded-md text-base font-medium'
-                          )}
-                          aria-current={item.current ? 'page' : undefined}
-                        >
-                          {item.name}
-                        </DisclosureButton>
-                    </Link>         
+                        className={classNames(
+                          item.current
+                            ? 'bg-gray-900 text-white'
+                            : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                          'w-full block px-3 py-2 rounded-md text-base font-medium',
+                        )}
+                        aria-current={item.current ? 'page' : undefined}
+                      >
+                        {item.name}
+                      </DisclosureButton>
+                    </Link>
                   ))}
                 </div>
-
-                
               </DisclosurePanel>
             </>
           )}
         </Disclosure>
       </header>
-      <main className="mt-2 p-4">
-        {children}
-      </main>
+      <main className="mt-2 p-4">{children}</main>
     </>
-  )
+  );
 }

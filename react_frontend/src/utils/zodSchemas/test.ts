@@ -1,15 +1,20 @@
 import { z } from 'zod';
 
-const TestFormData = z.object({
-    id: z.number().int().positive(),
-    name: z.string(),
-    // race_score: z.number().positive(),
-    // race_position: z.number().int().positive(),
-    value: z.number().int().positive(),
-    // value_description: z.string(),
-    penalty: z.number().optional(),
-    penalty_description: z.string().optional(),
-    squad_id: z.number().int().positive(),
+export const TestFormData = z.object({
+  name: z.string(),
+  value: z.coerce.number().positive('O valor deve ser maior que zero!'),
+  value_description: z.string(),
+  penalty: z.coerce
+    .number()
+    .optional()
+    .nullable()
+    .transform((v) => v || undefined),
+  penalty_description: z
+    .string()
+    .optional()
+    .nullable()
+    .transform((v) => v || undefined),
+  squad_id: z.coerce.number().int().positive(),
 });
 
 export type TTestFormData = z.infer<typeof TestFormData>;

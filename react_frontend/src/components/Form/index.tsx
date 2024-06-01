@@ -45,7 +45,6 @@ export default function RHForm<DataT extends object>({
     methods.reset(defaultValues);
   }, [defaultValues, methods]);
 
-  console.log('defaultValues', defaultValues);
   return (
     <FormProvider {...methods}>
       <form

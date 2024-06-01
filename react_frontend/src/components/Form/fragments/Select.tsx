@@ -1,5 +1,6 @@
 import { twMerge } from 'tailwind-merge';
 import SelectSkeleton from '@/components/skeletons/SelectSkeleton';
+import { useFormContext } from 'react-hook-form';
 
 type Style = {
   container?: string;
@@ -8,7 +9,7 @@ type Style = {
 };
 
 type SelectOption = {
-  value: string;
+  value: string | number;
   label: string;
 };
 
@@ -23,9 +24,15 @@ type Props = {
 };
 
 const Select = (props: Props) => {
-  console.log('options', props.options)
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
+
   return (
-    <div className={twMerge('flex flex-col', props.style?.container)}>
+    <div
+      className={twMerge('flex flex-col relative my-3', props.style?.container)}
+    >
       <label
         htmlFor={props.id}
         className={twMerge('flex flex-col', props.style?.label)}
@@ -42,19 +49,30 @@ const Select = (props: Props) => {
             props.style?.select,
           )}
           id={props.id}
-          defaultValue={props.defaultValue}
-          onChange={(e) => props.onChange && props.onChange(e.target.value)}
+          // defaultValue={props.defaultValue}
+          {...register?.(props.id, {
+            value: props.defaultValue,
+            onChange: (e) => {
+              props.onChange?.(e.target.value);
+            },
+          })}
         >
           {props.options.map((option) => (
             <option
               key={option.value}
-              defaultValue={props.options[0].label}
-              id={option.value}
+              id={option.value.toString()}
+              value={option.value}
             >
               {option.label}
             </option>
           ))}
         </select>
+      )}
+
+      {errors[props.id] && (
+        <span className="text-red-500 text-sm absolute bottom-[-20px]">
+          {errors[props.id]?.message as string}
+        </span>
       )}
     </div>
   );

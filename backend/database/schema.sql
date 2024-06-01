@@ -1,13 +1,13 @@
 CREATE TABLE `tests`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `name` ENUM("Subida de Rampa em 45° (contagem de distância)", "Velocidade máxima com manobrabilidade (contagem de tempo)", "Tração (contagem de peso)") UNIQUE,
-    `race_score` INT NOT NULL,
-    `race_position` INT NOT NULL,
+    `name` ENUM("Subida de Rampa em 45° (contagem de distância)", "Velocidade máxima com manobrabilidade (contagem de tempo)", "Tração (contagem de peso)"),
     `value` DECIMAL(8, 2) NOT NULL,
-    `value_description` ENUM("contagem de distância", "contagem de tempo", "contagem de peso") NOT NULL,
+    `value_description` ENUM("metros", "segundos", "gramas") NOT NULL,
+    /* penalty will be added to the value. so, the final test result is value + penalty */
     `penalty` DECIMAL(8, 2) NULL,
     `penalty_description` VARCHAR(64) NULL,
-    `squad_id` INT UNSIGNED NOT NULL
+    `squad_id` INT UNSIGNED NOT NULL,
+    UNIQUE KEY `tests_name_squad_id_unique` (`name`, `squad_id`)
 );
 CREATE TABLE `squads`(
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

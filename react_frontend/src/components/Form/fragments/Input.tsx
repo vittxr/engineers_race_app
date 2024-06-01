@@ -34,7 +34,6 @@ const Input = ({ id, className = '', isLoading = false, ...rest }: Props) => {
       />
     );
   }
-
   return (
     <div className="relative my-3">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">

@@ -1,21 +1,19 @@
 import RHForm from '@/components/Form';
 import { httpClient } from '@/utils/requests';
-import { Squad } from '@/utils/types/apiSchemas';
-import { TTestFormData } from '@/utils/zodSchemas/test';
+import { Squad, Test } from '@/utils/types/apiSchemas';
+import { TTestFormData, TestFormData } from '@/utils/zodSchemas/test';
 import { UseMutationResult, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 
 type Props = {
   mutation: UseMutationResult<void, Error, TTestFormData, unknown>;
+  title: string;
   buttonText: string;
-  test?: Squad;
+  test?: Test;
   isLoading?: boolean;
 };
 
-const TestForm = ({ mutation, buttonText, isLoading }: Props) => {
-  const [title, setTitle] = useState<string>(
-    'Criar registro de prova - Subida de Rampa em 45° (contagem de distância)',
-  );
+const TestForm = ({ title, test, mutation, buttonText, isLoading }: Props) => {
   const [valueUnit, setValueUnit] = useState<'metros' | 'segundos' | 'gramas'>(
     'metros',
   );
@@ -25,27 +23,41 @@ const TestForm = ({ mutation, buttonText, isLoading }: Props) => {
   });
 
   const handleTestTypeChange = async (value: string) => {
-    setTitle(`Criar registro de prova - ${value}`);
-    switch (value) {
-      case 'Subida de Rampa em 45° (contagem de distância)':
-        setValueUnit('metros');
-        break;
-      case 'Velocidade máxima com manobrabilidade (contagem de tempo)':
-        setValueUnit('segundos');
-        break;
-      case 'Tração (contagem de peso)':
-        setValueUnit('gramas');
-        break;
-    }
+    if (value === 'Subida de Rampa em 45° (contagem de distância)')
+      return setValueUnit('metros');
+    if (value === 'Velocidade máxima com manobrabilidade (contagem de tempo)')
+      return setValueUnit('segundos');
+    if (value === 'Tração (contagem de peso)') return setValueUnit('gramas');
   };
 
+  console.log('test: ', test);
   return (
     <>
       <h1 className="font-medium text-2xl text-center">{title}</h1>
       <RHForm
         id="test-form"
-        onSubmit={mutation.mutateAsync}
+        onSubmit={(data: TTestFormData) => {
+          console.log('data: ', data);
+          mutation.mutateAsync({ ...data, value_description: valueUnit });
+        }}
         buttonText={buttonText}
+        zodSchema={TestFormData}
+        defaultValues={
+          test
+            ? {
+                name: test.name,
+                value: test.value,
+                value_description: test.value_description,
+                penalty: test.penalty,
+                penalty_description: test.penalty_description,
+                squad_id: test.squad.id,
+              }
+            : {
+                value_description: valueUnit,
+                squad_id: squads.data?.data[0]?.id,
+              }
+        }
+        isSubmitting={mutation.isPending}
       >
         <RHForm.Select
           label="Nome (tipo de prova)"
@@ -84,6 +96,7 @@ const TestForm = ({ mutation, buttonText, isLoading }: Props) => {
             }) || []
           }
           isLoading={isLoading}
+          defaultValue={test?.squad.id || squads.data?.data[0]?.id}
         />
       </RHForm>
     </>
