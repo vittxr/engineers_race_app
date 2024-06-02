@@ -17,6 +17,7 @@ import Tests from './screens/tests/Tests';
 import TestCreate from './screens/tests/TestCreate';
 import Podium from './screens/podium/Podium';
 import TestUpdate from './screens/tests/TestUpdate';
+import Grades from './screens/grades/Grades';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
   {
     path: '/provas/:id',
     element: <TestUpdate />,
+  },
+  {
+    path: '/notas',
+    element: <Grades />,
   },
   {
     path: '/podium',
