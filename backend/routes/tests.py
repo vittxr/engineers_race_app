@@ -9,7 +9,14 @@ async def get_tests_route():
     return await get_tests()
 
 
-@tests_router.get("/{id}/")
+@tests_router.get("/grades/")
+async def get_grades():
+    tests = await get_tests()
+    tests = [Test(**test) for test in tests]
+    return Test.get_grades(tests)
+
+
+@tests_router.get("/{id}/", response_model=Test)
 async def get_test_route(id: int):
     test = await get_tests(params=RequestParams(q=f"t.id = '{id}'"))
     if len(test) == 0:

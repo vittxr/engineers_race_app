@@ -17,7 +17,7 @@ type Props = {
   id: string;
   label: string;
   options: SelectOption[];
-  defaultValue?: string;
+  defaultValue?: string | number | undefined;
   isLoading?: boolean;
   style?: Style;
   onChange?: (value: string) => void;

@@ -44,6 +44,7 @@ const Tests = () => {
         }),
   });
 
+  console.log('tests.data', tests.data?.data);
   return (
     <BaseScreen>
       <div className="w-full flex justify-between items-center">

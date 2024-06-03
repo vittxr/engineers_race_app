@@ -19,7 +19,6 @@ async def get_tests(params: RequestParams | None = None) -> list[dict[str, Any]]
                 'squad', JSON_OBJECT(
                     'id', s.id, 
                     'name', s.name,
-                    'grade', s.grade,
                     'car_id', s.car_id
                 )
             )
@@ -33,7 +32,9 @@ async def get_tests(params: RequestParams | None = None) -> list[dict[str, Any]]
 
         cursor.execute(sql)
         data = cursor.fetchone()
-        return json.loads(data["json_result"]) if data else []
+        if data is not None:
+            return json.loads(data["json_result"]) if data["json_result"] else []
+        return []
 
 
 async def create_test(test: TestCreate) -> None:

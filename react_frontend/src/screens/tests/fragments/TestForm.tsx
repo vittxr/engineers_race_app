@@ -30,14 +30,12 @@ const TestForm = ({ title, test, mutation, buttonText, isLoading }: Props) => {
     if (value === 'Tração (contagem de peso)') return setValueUnit('gramas');
   };
 
-  console.log('test: ', test);
   return (
     <>
       <h1 className="font-medium text-2xl text-center">{title}</h1>
       <RHForm
         id="test-form"
         onSubmit={(data: TTestFormData) => {
-          console.log('data: ', data);
           mutation.mutateAsync({ ...data, value_description: valueUnit });
         }}
         buttonText={buttonText}
@@ -54,7 +52,6 @@ const TestForm = ({ title, test, mutation, buttonText, isLoading }: Props) => {
               }
             : {
                 value_description: valueUnit,
-                squad_id: squads.data?.data[0]?.id,
               }
         }
         isSubmitting={mutation.isPending}
@@ -96,7 +93,7 @@ const TestForm = ({ title, test, mutation, buttonText, isLoading }: Props) => {
             }) || []
           }
           isLoading={isLoading}
-          defaultValue={test?.squad.id || squads.data?.data[0]?.id}
+          defaultValue={test?.squad.id}
         />
       </RHForm>
     </>

@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 from database.schemas import OptionalModel
 
@@ -14,7 +15,7 @@ class Student(BaseModel):
 
     id: int
     name: str
-    RA: str
+    RA: Optional[str] = None
 
 
 class StudentCreate(BaseModel):
@@ -27,7 +28,7 @@ class StudentCreate(BaseModel):
     """
 
     name: str
-    RA: str
+    RA: Optional[str] = None
 
 
 class StudentUpdate(StudentCreate, OptionalModel):

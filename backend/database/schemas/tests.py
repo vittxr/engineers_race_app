@@ -18,6 +18,7 @@ class Test(BaseModel):
         value_description (str): The description of the test value. (Distância percorrida, Tempo feito, Peso retentor)
         penalty (Optional[float], optional): The penalty of the test. Defaults to None. This value is added to "value" attribute.
         penalty_description (Optional[str], optional): The description of the test penalty. Defaults to None. (Saída de pista)
+        grade: Optional[float]: The grade of the test. It is calculated based on the test value. This value is not stored in database.
         squad_id (int): The ID of the squad associated with the test.
     """
 
@@ -28,13 +29,66 @@ class Test(BaseModel):
     penalty: Optional[float] = None
     penalty_description: Optional[str] = None
     # squad_id: int
+    grade: Optional[float] = None
     squad: Squad
 
     @classmethod
-    def get_grades(cls: Type[T], tests: list[T]) -> dict[str, float]:
-        pass
+    def get_grades(cls: Type[T], tests: list[T]):
+        """
+        This method returns the grades of the tests.
+
+        Args:
+            tests (list[T]): A list of tests.
+
+        Returns:
+            dict[str, float]: A dictionary with the grades of the tests.
+        """
+        first_tests = [test for test in tests if test.name == FIRST_TEST]
+        second_tests = [test for test in tests if test.name == SECOND_TEST]
+        third_tests = [test for test in tests if test.name == THIRD_TEST]
+
+        first_tests = sorted(first_tests, key=lambda test: test.value, reverse=True)
+        second_tests = sorted(second_tests, key=lambda test: test.value)
+        third_tests = sorted(third_tests, key=lambda test: test.value, reverse=True)
+
+        grouped_squads: dict[str, dict[str, float]] = {}
+
+        grades_according_to_position = {
+            1: 1.0,
+            2: 1.0,
+            3: 1.0,
+            4: 0.8,
+            5: 0.8,
+            6: 0.8,
+            7: 0.6,
+            8: 0.6,
+        }
+
+        def calc_grade(sorted_tests: list[T]):
+            for i, test in enumerate(sorted_tests):
+                if test.value == 0:
+                    grade = 0
+                elif i + 1 not in grades_according_to_position:
+                    grade = 0.4
+                else:
+                    grade = grades_according_to_position[i + 1]
+
+                sorted_tests[i].grade = grade
+
+            return sorted_tests
+
+        sorted_first_tests = calc_grade(first_tests)
+        sorted_second_tests = calc_grade(second_tests)
+        sorted_third_tests = calc_grade(third_tests)
+
+        return {
+            "first_tests": sorted_first_tests,
+            "second_tests": sorted_second_tests,
+            "third_tests": sorted_third_tests,
+        }
 
     @classmethod
+    # TODO: GERAR O PODIUM GERAL COM BASE NAS NOTAS, MAS GERAR O PODIUM DE CADA TIPO DE TESTE TAMBÈM.
     def generate_podium_of_test_type(cls: Type[T], tests: list[T]):
         """
         This method returns the podium of the tests, accordinly to the tests values. The tests need to be the same type!

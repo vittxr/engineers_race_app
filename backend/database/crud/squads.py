@@ -10,7 +10,7 @@ from utils.error.error_messages import CANNOT_CREATE_SQUAD, SQUAD_NOT_FOUND
 
 async def get_squads():
     with connection.cursor() as cursor:
-        cursor.execute("SELECT s.id, s.name, s.grade FROM squads AS s")
+        cursor.execute("SELECT s.id, s.name FROM squads AS s")
         return cursor.fetchall()
 
 
@@ -21,7 +21,6 @@ async def get_squad(id: int):
                 s.id, 
                 s.name, 
                 s.car_id,
-                s.grade, 
                 (
                     SELECT JSON_ARRAYAGG(JSON_OBJECT('id', st.id, 'name', st.name, 'RA', st.RA)) 
                     FROM students AS st WHERE st.squad_id = s.id
@@ -62,8 +61,6 @@ async def create_squad(squad: SquadCreate) -> None:
 
         if squad.students:
             await create_students(squad.students, db_squad["id"])
-
-        # return Squad(**db_squad, students=students)
 
 
 async def update_squad(id: int, squad: SquadUpdate) -> None:

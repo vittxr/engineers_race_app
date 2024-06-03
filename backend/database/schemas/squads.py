@@ -11,13 +11,11 @@ class Squad(BaseModel):
     Attributes:
         id (int): The ID of the squad.
         name (str): The name of the squad.
-        grade (float): The grade of the squad.
         car_id (str): The id of the car used by the squad.
     """
 
     id: Optional[int] = None
     name: Optional[str] = None
-    grade: Optional[float] = None
     car_id: Optional[str] = None
 
     students: Optional[list[Student]] = None
