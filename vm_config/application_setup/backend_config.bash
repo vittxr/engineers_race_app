@@ -1,4 +1,4 @@
-GITHUB_TOKEN="XXXXXXX"
+GITHUB_TOKEN="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"
 GITHUB_REPO="https://$GITHUB_TOKEN@github.com/vittxr/engineers_race_app.git"
 PROJECT_PATH="/home/vit/backend"
 PROJECT_NAME="engineers_race_backend"
@@ -16,8 +16,10 @@ setup_filesystem() {
         cd $PROJECT_PATH
         git clone $GITHUB_REPO .
         find ./ -mindepth 1 ! -regex '^./backend\(/.*\)?' -delete
-        cd backend
+        cd backend/
         mv * ../
+        rm -rf backend/
+        cd ..
         python3 -m venv venv 
         source ./venv/bin/activate
         pip install -r requirements.txt
