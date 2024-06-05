@@ -1,11 +1,11 @@
 import { Test } from '@/utils/types/apiSchemas';
-import React from 'react';
 
 type Props = {
   tests: Test[];
 };
 
 const FinalPodium = ({ tests }: Props) => {
+  console.log('tests', tests);
   return <div>FinalPodium</div>;
 };
 

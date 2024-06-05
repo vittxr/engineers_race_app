@@ -18,8 +18,9 @@ setup_filesystem() {
         find ./ -mindepth 1 ! -regex '^./backend\(/.*\)?' -delete
         cd backend/
         mv * ../
-        rm -rf backend/
+        mv .env ../
         cd ..
+        rm -rf backend/
         python3 -m venv venv 
         source ./venv/bin/activate
         pip install -r requirements.txt

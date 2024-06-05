@@ -3,23 +3,24 @@ import IndividualTestGrades from './IndividualTestGrades';
 import { Test } from '@/utils/types/apiSchemas';
 
 type Props = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   tests_grades: any;
 };
 
 const FinalGrades = ({ tests_grades }: Props) => {
-  const [finalGrades, setFinalGrades] = useState<Test[]>([]);
+  const [finalGrades, setFinalGrades] = useState<Partial<Test>[]>([]);
 
   useEffect(() => {
     if (tests_grades) {
-      const acc_grades_by_squad: Test[] = [];
+      const acc_grades_by_squad: Partial<Test>[] = [];
 
       console.log('grades', tests_grades);
 
-      Object.keys(tests_grades).forEach((key) => {
+      Object.keys(tests_grades).forEach((key: string) => {
         tests_grades[key].forEach((test: Test) => {
           const grade_value = test.grade;
           const squad_grade = acc_grades_by_squad.find(
-            (squad_grade) => squad_grade.squad.name === test.squad.name,
+            (squad_grade) => squad_grade.squad?.name === test.squad.name,
           );
 
           if (squad_grade) {
@@ -27,7 +28,7 @@ const FinalGrades = ({ tests_grades }: Props) => {
           } else {
             acc_grades_by_squad.push({
               squad: test.squad,
-              grade: grade_value,
+              grade: grade_value || 0,
             });
           }
         });

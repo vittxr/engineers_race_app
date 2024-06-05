@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import FinalGrades from './fragments/FinalGrades';
 import { Button } from '@/components';
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline';
-import ToggleInput from '@/components/ToggleInput';
+// import ToggleInput from '@/components/ToggleInput';
 
 type Tab = {
   name: string;

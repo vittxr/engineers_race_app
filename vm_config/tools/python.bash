@@ -1,3 +1,3 @@
-sudo apt update 
-sudo apt install python3 -y
-apt install python3.8-venv # ensure your python version!!
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install python3.11
+apt install python3.11-venv # ensure your python version!!

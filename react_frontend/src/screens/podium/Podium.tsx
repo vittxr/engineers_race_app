@@ -103,6 +103,7 @@ const Podium = () => {
           if (tab.name === 'Nota final') {
             return {
               ...tab,
+              // @ts-expect-error - TODO: REMOVE THIS
               children: <FinalPodium tests={tests.data} />,
             };
           }
@@ -134,6 +135,7 @@ const Podium = () => {
         <p>Carregando</p>
       ) : (
         <>
+          {/** @ts-expect-error - TODO: REMOVE THIS */}
           {tests.data?.length === 0 || !tests?.data ? (
             <EmptyState
               title="Não há registros de provas para calcular o Podium! "

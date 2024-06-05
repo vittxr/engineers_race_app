@@ -3,7 +3,7 @@ import Table from '@/components/Table';
 type Props = {
   title: string;
   // TODO: type grades properly
-  tests_grades: unknown[];
+  tests_grades: object[];
 };
 
 const IndividualTestGrades = ({ title, tests_grades }: Props) => {
