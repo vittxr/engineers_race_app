@@ -14,6 +14,7 @@ setup_filesystem() {
         find ./ -mindepth 1 ! -regex '^./react_frontend\(/.*\)?' -delete
         cd react_frontend/
         mv * ../
+        cd ..
         rm -rf react_frontend/
         find ./ -mindepth 1 ! -regex '^./dist\(/.*\)?' -delete
         cd dist/

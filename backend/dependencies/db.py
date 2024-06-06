@@ -2,7 +2,7 @@ import os
 from dotenv import load_dotenv
 import pymysql.cursors
 
-load_dotenv()
+load_dotenv(override=True)
 
 # Connect to the database
 connection = pymysql.connect(

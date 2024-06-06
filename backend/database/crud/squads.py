@@ -52,8 +52,9 @@ async def create_squad(squad: SquadCreate) -> None:
         Squad: The created squad.
     """
     with connection.cursor() as cursor:
-        sql = "INSERT INTO squads (name, car_id) VALUES (%s, %s) RETURNING *"
+        sql = "INSERT INTO squads (name, car_id) VALUES (%s, %s)"
         cursor.execute(sql, (squad.name, squad.car_id))
+        cursor.execute("SELECT LAST_INSERT_ID() as id")
         db_squad = cursor.fetchone()
 
         if db_squad is None:

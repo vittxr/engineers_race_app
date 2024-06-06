@@ -19,6 +19,7 @@ class ExceptionHandlerMiddleware(BaseHTTPMiddleware):
         try:
             return await call_next(request)
         except DBOperationalError as e:
+            print("error:", e)
             if e.args[0] == 1054:
                 return JSONResponse(
                     status_code=400,
@@ -36,12 +37,14 @@ class ExceptionHandlerMiddleware(BaseHTTPMiddleware):
                 status_code=400, content={"detail": str(e)}, headers=CORS_HEADER
             )
         except ValidationError as e:
+            print("error:", e)
             return JSONResponse(
                 status_code=400,
                 content={"detail": e.errors()[0]["msg"].split("Value error, ")[-1]},
                 headers=CORS_HEADER,
             )
         except Exception as e:
+            print("error:", e)
             return JSONResponse(
                 status_code=400, content={"detail": str(e)}, headers=CORS_HEADER
             )
