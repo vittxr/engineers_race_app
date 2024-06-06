@@ -8,9 +8,9 @@ setup_filesystem() {
         cd "$PROJECT_PATH"
         git pull 
         if [ -d venv ]; then rm -rf venv; fi
-        python3 -m venv venv
+        python3.11 -m venv venv
         source ./venv/bin/activate
-        pip install -r requirements.txt
+        python3.11 -m pip install -r requirements.txt
     else 
         mkdir -p $PROJECT_PATH
         cd $PROJECT_PATH
@@ -21,9 +21,9 @@ setup_filesystem() {
         mv .env ../
         cd ..
         rm -rf backend/
-        python3 -m venv venv 
+        python3.11 -m venv venv 
         source ./venv/bin/activate
-        pip install -r requirements.txt
+        python3.11 -m pip install -r requirements.txt
         mkdir logs
         mkdir run 
     fi
