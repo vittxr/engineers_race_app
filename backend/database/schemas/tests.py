@@ -71,14 +71,31 @@ class Test(BaseModel):
 
         def calc_grade(sorted_tests: list[T]):
             for i, test in enumerate(sorted_tests):
-                if test.final_value == 0:
-                    grade = 0
-                elif i + 1 not in grades_according_to_position:
-                    grade = 0.4
+                # is_a_duplicated_final_value = test.final_value in [t.final_value for t in sorted_tests]
+                duplicated_test_result = (
+                    next(
+                        filter(
+                            lambda t: t.final_value == test.final_value, sorted_tests
+                        ),
+                        None,
+                    )
+                    or {}
+                )
+                print("duplicated_test_result", duplicated_test_result)
+                if duplicated_test_result.grade:
+                    grade = duplicated_test_result.grade
                 else:
-                    grade = grades_according_to_position[i + 1]
+                    if test.final_value == 0:
+                        grade = 0
+                    elif i + 1 not in grades_according_to_position:
+                        grade = 0.4
+                    else:
+                        grade = grades_according_to_position[i + 1]
 
                 sorted_tests[i].grade = round(grade, 2)
+
+            # check if there are duplicated grades
+            # for i, test
 
             return sorted_tests
 
