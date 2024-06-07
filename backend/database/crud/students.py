@@ -10,7 +10,12 @@ async def get_students():
         A list of tuples representing the students' data.
     """
     with connection.cursor() as cursor:
-        cursor.execute("SELECT * FROM students")
+        cursor.execute(
+            """
+            SELECT students.*, squads.id AS squad_id FROM students
+            JOIN squads ON squads.id = students.squad_id
+        """
+        )
         return cursor.fetchall()
 
 

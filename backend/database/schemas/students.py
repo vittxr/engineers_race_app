@@ -16,6 +16,7 @@ class Student(BaseModel):
     id: int
     name: str
     RA: Optional[str] = None
+    squad_id: int
 
 
 class StudentCreate(BaseModel):
