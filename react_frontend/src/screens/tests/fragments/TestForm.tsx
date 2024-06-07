@@ -3,7 +3,7 @@ import { httpClient } from '@/utils/requests';
 import { Squad, Test } from '@/utils/types/apiSchemas';
 import { TTestFormData, TestFormData } from '@/utils/zodSchemas/test';
 import { UseMutationResult, useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   mutation: UseMutationResult<void, Error, TTestFormData, unknown>;
@@ -29,6 +29,12 @@ const TestForm = ({ title, test, mutation, buttonText, isLoading }: Props) => {
       return setValueUnit('segundos');
     if (value === 'Tração (contagem de peso)') return setValueUnit('gramas');
   };
+
+  useEffect(() => {
+    if (test?.name) {
+      handleTestTypeChange(test.name);
+    }
+  }, [test?.name])
 
   return (
     <>

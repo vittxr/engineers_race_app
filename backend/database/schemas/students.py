@@ -5,18 +5,18 @@ from database.schemas import OptionalModel
 
 class Student(BaseModel):
     """
-    Represents a student.
-
-    Attributes:
-        id (int): The unique identifier of the student.
-        name (str): The name of the student.
-        RA (str): The registration number of the student.
+        Represents a student.
+    250'
+        Attributes:
+            id (int): The unique identifier of the student.
+            name (str): The name of the student.
+            RA (str): The registration number of the student.
     """
 
     id: int
     name: str
     RA: Optional[str] = None
-    squad_id: int
+    squad_id: Optional[int] = None
 
 
 class StudentCreate(BaseModel):

@@ -13,7 +13,9 @@ const IndividualPodiumByTest = ({ tests, title }: Props) => {
       data={tests}
       columns={[
         { title: 'Equipe', field: 'squad.name' },
-        { title: 'Valor da prova', field: 'value' },
+        { title: `Valor da prova (${tests[0].value_description})`, field: 'value' },
+        { title: 'Penalidade', field: 'penalty' },
+        { title: 'Valor final', field: 'final_value' },
       ]}
     />
   );

@@ -1,5 +1,5 @@
 from typing import Literal, Optional, TypeVar, Type
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
 from database.schemas.squads import Squad
 from database.schemas.utils import OptionalModel
 from utils.constants import FIRST_TEST, SECOND_TEST, THIRD_TEST
@@ -28,9 +28,12 @@ class Test(BaseModel):
     value_description: str
     penalty: Optional[float] = None
     penalty_description: Optional[str] = None
-    # squad_id: int
     grade: Optional[float] = None
     squad: Squad
+
+    @computed_field
+    def final_value(self) -> float:
+        return self.value + (self.penalty or 0)
 
     @classmethod
     def get_grades(cls: Type[T], tests: list[T]):
@@ -47,11 +50,13 @@ class Test(BaseModel):
         second_tests = [test for test in tests if test.name == SECOND_TEST]
         third_tests = [test for test in tests if test.name == THIRD_TEST]
 
-        first_tests = sorted(first_tests, key=lambda test: test.value, reverse=True)
-        second_tests = sorted(second_tests, key=lambda test: test.value)
-        third_tests = sorted(third_tests, key=lambda test: test.value, reverse=True)
-
-        # grouped_squads: dict[str, dict[str, float]] = {}
+        first_tests = sorted(
+            first_tests, key=lambda test: test.final_value, reverse=True
+        )
+        second_tests = sorted(second_tests, key=lambda test: test.final_value)
+        third_tests = sorted(
+            third_tests, key=lambda test: test.final_value, reverse=True
+        )
 
         grades_according_to_position = {
             1: 1.0,
@@ -66,7 +71,7 @@ class Test(BaseModel):
 
         def calc_grade(sorted_tests: list[T]):
             for i, test in enumerate(sorted_tests):
-                if test.value == 0:
+                if test.final_value == 0:
                     grade = 0
                 elif i + 1 not in grades_according_to_position:
                     grade = 0.4
@@ -108,10 +113,10 @@ class Test(BaseModel):
             raise TypeError("All tests must be the same type!")
 
         if tests[0].name == FIRST_TEST or tests[0].name == THIRD_TEST:
-            return sorted(tests, key=lambda test: test.value, reverse=True)
+            return sorted(tests, key=lambda test: test.final_value, reverse=True)
 
         if tests[0].name == SECOND_TEST:
-            return sorted(tests, key=lambda test: test.value)
+            return sorted(tests, key=lambda test: test.final_value)
 
 
 class TestCreate(BaseModel):
