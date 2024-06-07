@@ -14,7 +14,7 @@ class Test(BaseModel):
     Attributes:
         id (int): The ID of the test.
         name (str): The name of the test
-        value (int): The value of the test.
+        value (float): The value of the test.
         value_description (str): The description of the test value. (Distância percorrida, Tempo feito, Peso retentor)
         penalty (Optional[float], optional): The penalty of the test. Defaults to None. This value is added to "value" attribute.
         penalty_description (Optional[str], optional): The description of the test penalty. Defaults to None. (Saída de pista)
@@ -24,7 +24,7 @@ class Test(BaseModel):
 
     id: int
     name: str
-    value: int
+    value: float
     value_description: str
     penalty: Optional[float] = None
     penalty_description: Optional[str] = None
@@ -51,7 +51,7 @@ class Test(BaseModel):
         second_tests = sorted(second_tests, key=lambda test: test.value)
         third_tests = sorted(third_tests, key=lambda test: test.value, reverse=True)
 
-        grouped_squads: dict[str, dict[str, float]] = {}
+        # grouped_squads: dict[str, dict[str, float]] = {}
 
         grades_according_to_position = {
             1: 1.0,
@@ -73,7 +73,7 @@ class Test(BaseModel):
                 else:
                     grade = grades_according_to_position[i + 1]
 
-                sorted_tests[i].grade = grade
+                sorted_tests[i].grade = round(grade, 2)
 
             return sorted_tests
 

@@ -5,7 +5,7 @@ import EmptyState from '@/components/EmptyState';
 import { useEffect, useState } from 'react';
 import IndividualPodiumByTest from './fragments/IndividualPodiumByTest';
 import { classNames } from '@/utils/tw';
-import FinalPodium from './fragments/FinalPodium';
+// import FinalPodium from './fragments/FinalPodium';
 import { Test } from '@/utils/types/apiSchemas';
 
 type Tab = {
@@ -57,7 +57,7 @@ const Podium = () => {
     { name: 'Subida de Rampa', current: true, children: undefined },
     { name: 'Velocidade Máxima', current: false, children: undefined },
     { name: 'Tração', current: false, children: undefined },
-    { name: 'Nota final', current: false, children: undefined },
+    // { name: 'Nota final', current: false, children: undefined },
   ]);
 
   useEffect(() => {
@@ -100,13 +100,13 @@ const Podium = () => {
             };
           }
 
-          if (tab.name === 'Nota final') {
-            return {
-              ...tab,
-              // @ts-expect-error - TODO: REMOVE THIS
-              children: <FinalPodium tests={tests.data} />,
-            };
-          }
+          // if (tab.name === 'Nota final') {
+          //   return {
+          //     ...tab,
+          //     // @ts-expect-error - TODO: REMOVE THIS
+          //     children: <FinalPodium tests={tests.data} />,
+          //   };
+          // }
 
           return tab;
         });

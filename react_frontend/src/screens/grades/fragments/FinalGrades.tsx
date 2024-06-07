@@ -14,8 +14,6 @@ const FinalGrades = ({ tests_grades }: Props) => {
     if (tests_grades) {
       const acc_grades_by_squad: Partial<Test>[] = [];
 
-      console.log('grades', tests_grades);
-
       Object.keys(tests_grades).forEach((key: string) => {
         tests_grades[key].forEach((test: Test) => {
           const grade_value = test.grade;
@@ -24,16 +22,20 @@ const FinalGrades = ({ tests_grades }: Props) => {
           );
 
           if (squad_grade) {
-            squad_grade.grade! += grade_value!;
+            squad_grade.grade! += grade_value || 0;
+            squad_grade.grade = parseFloat(
+              squad_grade.grade?.toFixed(2) || '0',
+            );
           } else {
             acc_grades_by_squad.push({
               squad: test.squad,
-              grade: grade_value || 0,
+              grade: grade_value,
             });
           }
         });
       });
 
+      console.log('acc_grades_by_squad', acc_grades_by_squad);
       setFinalGrades(acc_grades_by_squad);
     }
   }, [tests_grades]);

@@ -96,7 +96,7 @@ const Grades = () => {
       <div className="w-full flex justify-between items-center">
         <h1 className="text-2xl">Provas</h1>
         <Button className="px-8 space-x-2">
-          <span>Exportar relatório!</span>
+          <span>Exportar notas!</span>
           <ArrowDownTrayIcon className="w-5 h-5" />
         </Button>
       </div>
