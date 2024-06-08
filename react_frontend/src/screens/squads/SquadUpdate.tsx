@@ -20,7 +20,6 @@ const SquadUpdate = () => {
     queryFn: () => httpClient.get(`/squads/${id}`),
   });
 
-  console.log('suqad', squad.data?.data);
   return (
     <SquadForm
       mutation={mutation}

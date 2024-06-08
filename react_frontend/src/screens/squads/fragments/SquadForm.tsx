@@ -48,6 +48,7 @@ const SquadForm = ({
             id="squad-form"
             zodSchema={SquadFormData}
             onSubmit={(data: TSquadFormData) => {
+              console.log('data', data);
               data.students = students;
               mutation.mutateAsync(data);
             }}

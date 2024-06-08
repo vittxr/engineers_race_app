@@ -34,6 +34,8 @@ const Input = ({ id, className = '', isLoading = false, ...rest }: Props) => {
       />
     );
   }
+
+  console.log('input-errors', errors);
   return (
     <div className="relative my-3">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
