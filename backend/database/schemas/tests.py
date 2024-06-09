@@ -31,6 +31,8 @@ class Test(BaseModel):
     grade: Optional[float] = None
     squad: Squad
 
+    position: Optional[int] = None
+
     @computed_field
     def final_value(self) -> float:
         return self.value + (self.penalty or 0)
@@ -71,8 +73,7 @@ class Test(BaseModel):
 
         def calc_grade(sorted_tests: list[T]):
             for i, test in enumerate(sorted_tests):
-                # is_a_duplicated_final_value = test.final_value in [t.final_value for t in sorted_tests]
-                duplicated_test_result = (
+                existing_test_result = (
                     next(
                         filter(
                             lambda t: t.final_value == test.final_value, sorted_tests
@@ -81,21 +82,25 @@ class Test(BaseModel):
                     )
                     or {}
                 )
-                print("duplicated_test_result", duplicated_test_result)
-                if duplicated_test_result.grade:
-                    grade = duplicated_test_result.grade
+
+                last_position = sorted_tests[i - 1].position or 1
+                if existing_test_result.grade:
+                    grade = existing_test_result.grade
+                    last_position = existing_test_result.position - 1
+                    existing_test_result.position = last_position
+
                 else:
                     if test.final_value == 0:
                         grade = 0
-                    elif i + 1 not in grades_according_to_position:
+                    elif last_position not in grades_according_to_position:
                         grade = 0.4
                     else:
-                        grade = grades_according_to_position[i + 1]
+                        grade = grades_according_to_position[last_position]
 
+                sorted_tests[i].position = (
+                    sorted_tests[i - 1].position + 1 if i > 0 else 2
+                )
                 sorted_tests[i].grade = round(grade, 2)
-
-            # check if there are duplicated grades
-            # for i, test
 
             return sorted_tests
 
