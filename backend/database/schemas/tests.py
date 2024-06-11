@@ -156,7 +156,7 @@ class TestCreate(BaseModel):
 
     name: str
     value: float
-    value_description: Literal["metros", "segundos", "gramas"]
+    value_description: Literal["centímetros", "segundos", "gramas"]
     penalty: Optional[float] = None
     penalty_description: Optional[str] = None
     squad_id: int

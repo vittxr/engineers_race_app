@@ -14,8 +14,8 @@ type Props = {
 };
 
 const TestForm = ({ title, test, mutation, buttonText, isLoading }: Props) => {
-  const [valueUnit, setValueUnit] = useState<'metros' | 'segundos' | 'gramas'>(
-    'metros',
+  const [valueUnit, setValueUnit] = useState<'centímetros' | 'segundos' | 'gramas'>(
+    'centímetros',
   );
   const squads = useQuery({
     queryKey: ['squads'],
@@ -24,7 +24,7 @@ const TestForm = ({ title, test, mutation, buttonText, isLoading }: Props) => {
 
   const handleTestTypeChange = async (value: string) => {
     if (value === 'Subida de Rampa em 45° (contagem de distância)')
-      return setValueUnit('metros');
+      return setValueUnit('centímetros');
     if (value === 'Velocidade máxima com manobrabilidade (contagem de tempo)')
       return setValueUnit('segundos');
     if (value === 'Tração (contagem de peso)') return setValueUnit('gramas');
@@ -83,8 +83,8 @@ const TestForm = ({ title, test, mutation, buttonText, isLoading }: Props) => {
           ]}
           onChange={handleTestTypeChange}
         />
-        <RHForm.Input type="number" label={`Valor - ${valueUnit}`} id="value" />
-        <RHForm.Input type="number" label="Penalidade" id="penalty" />
+        <RHForm.Input type="decimal" label={`Valor - ${valueUnit}`} id="value" />
+        <RHForm.Input type="decimal" label="Penalidade" id="penalty" />
         <RHForm.Input
           type="text"
           label="Descrição da penalidade"

@@ -3,7 +3,7 @@ CREATE TABLE `tests`(
     `name` ENUM("Subida de Rampa em 45° (contagem de distância)", "Velocidade máxima com manobrabilidade (contagem de tempo)", "Tração (contagem de peso)"),
     /*if value is 0. this means, that the squad does'nt did the test.*/
     `value` DECIMAL(8, 2) DEFAULT 0,
-    `value_description` ENUM("metros", "segundos", "gramas"),
+    `value_description` ENUM("centímetros", "segundos", "gramas"),
     /* penalty will be added to the value. so, the final test result is value + penalty */
     `penalty` DECIMAL(8, 2) NULL,
     `penalty_description` VARCHAR(64) NULL,
