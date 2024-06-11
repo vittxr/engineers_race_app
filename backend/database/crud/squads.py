@@ -4,19 +4,18 @@ from database.crud import create_students
 from database.crud.students import delete_students_from_squad
 from database.schemas import SquadCreate, SquadUpdate
 from database.schemas.students import Student
-from dependencies import connection
+from dependencies.db import db_connection
 from utils.error.error_messages import CANNOT_CREATE_SQUAD, SQUAD_NOT_FOUND
-from contextlib import closing
 
 
 async def get_squads():
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         cursor.execute("SELECT s.id, s.name FROM squads AS s")
         return cursor.fetchall()
 
 
 async def get_squad(id: int):
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         cursor.execute(
             """SELECT 
                 s.id, 
@@ -52,7 +51,7 @@ async def create_squad(squad: SquadCreate) -> None:
     Returns:
         Squad: The created squad.
     """
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         sql = "INSERT INTO squads (name, car_id) VALUES (%s, %s)"
         cursor.execute(sql, (squad.name, squad.car_id))
         cursor.execute("SELECT LAST_INSERT_ID() as id")
@@ -75,7 +74,7 @@ async def update_squad(id: int, squad: SquadUpdate) -> None:
     Returns:
         None
     """
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         dict_squad = squad.model_dump(
             exclude_none=True,
             exclude={"students"},
@@ -102,5 +101,5 @@ async def delete_squad(id: int) -> None:
     Returns:
         None
     """
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         cursor.execute("DELETE FROM squads WHERE id = %s", (id,))

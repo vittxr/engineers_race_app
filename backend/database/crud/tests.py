@@ -1,13 +1,12 @@
-from contextlib import closing
 import json
 from typing import Any
 from database.schemas.tests import TestCreate, TestUpdate
 from database.schemas.utils import RequestParams
-from dependencies import connection
+from dependencies.db import db_connection
 
 
 async def get_tests(params: RequestParams | None = None) -> list[dict[str, Any]]:
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         sql = """
         SELECT JSON_ARRAYAGG(
             JSON_OBJECT(
@@ -39,7 +38,7 @@ async def get_tests(params: RequestParams | None = None) -> list[dict[str, Any]]
 
 
 async def create_test(test: TestCreate) -> None:
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         dict_test = test.model_dump(
             exclude_none=True,
             exclude={"students"},
@@ -52,7 +51,7 @@ async def create_test(test: TestCreate) -> None:
 
 
 async def update_test(id: int, test: TestUpdate) -> None:
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         dict_test = test.model_dump(exclude_none=True)
         set_clause = ", ".join([f"{column} = %s" for column in dict_test.keys()])
         sql = f"UPDATE tests SET {set_clause} WHERE id = %s"
@@ -62,5 +61,5 @@ async def update_test(id: int, test: TestUpdate) -> None:
 
 
 async def delete_test(id: int) -> None:
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         cursor.execute("DELETE FROM tests WHERE id = %s", (id,))

@@ -1,6 +1,5 @@
-from contextlib import closing
 from database.schemas import StudentCreate
-from dependencies import connection
+from dependencies.db import db_connection
 
 
 async def get_students():
@@ -10,7 +9,7 @@ async def get_students():
     Returns:
         A list of tuples representing the students' data.
     """
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         cursor.execute(
             """
             SELECT students.*, squads.id AS squad_id FROM students
@@ -34,7 +33,7 @@ async def create_students(students: list[StudentCreate], squad_id: int):
     Returns:
         Student: The created students.
     """
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         sql = "INSERT INTO students (name, RA, squad_id) VALUES (%s, %s, %s)"
         data = [(student.name, student.RA, squad_id) for student in students]
         cursor.executemany(sql, data)
@@ -49,5 +48,5 @@ async def delete_students_from_squad(squad_id: int):
     Args:
         squad_id (int): The ID of the squad.
     """
-    with closing(connection.cursor()) as cursor:
+    with db_connection() as cursor:
         cursor.execute("DELETE FROM students WHERE squad_id = %s", (squad_id,))
