@@ -1,5 +1,4 @@
-GITHUB_TOKEN="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"
-GITHUB_REPO="https://$GITHUB_TOKEN@github.com/vittxr/engineers_race_app.git"
+GITHUB_REPO="https://github.com/vittxr/engineers_race_app.git"
 PROJECT_PATH="/home/vit/backend"
 PROJECT_NAME="engineers_race_backend"
 

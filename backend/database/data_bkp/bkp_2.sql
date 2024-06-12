@@ -201,7 +201,7 @@ INSERT INTO `tests` VALUES
 (60,'Velocidade máxima com manobrabilidade (contagem de tempo)',1.98,'segundos',NULL,NULL,35),
 (61,'Velocidade máxima com manobrabilidade (contagem de tempo)',2.68,'segundos',NULL,NULL,4),
 (62,'Velocidade máxima com manobrabilidade (contagem de tempo)',2.72,'segundos',NULL,NULL,3),
-(63,'Subida de Rampa em 45° (contagem de distância)',78.00,'metros',NULL,NULL,36),
+(63,'Subida de Rampa em 45° (contagem de distância)',78.00,'centímetros',NULL,NULL,36),
 (64,'Velocidade máxima com manobrabilidade (contagem de tempo)',2.16,'segundos',NULL,NULL,36),
 (65,'Tração (contagem de peso)',269.00,'gramas',NULL,NULL,36);
 /*!40000 ALTER TABLE `tests` ENABLE KEYS */;
