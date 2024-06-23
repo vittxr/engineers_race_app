@@ -26,5 +26,3 @@
     - [x] post method: create a new test:
     - [x] put method: update test (/students/{id})
     - [x] delete method: delete test (/estudates/{id})
-
-https://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@github.com/vittxr/engineers_race_app.git
